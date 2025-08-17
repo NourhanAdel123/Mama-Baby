@@ -3,6 +3,7 @@ import { supabase } from '../integration/supabase/client'
 
 interface UserProfile {
   id: string;
+  user_id: string;
   mother_name: string;
   current_week: number;
   baby_birth_date?: string;
@@ -14,23 +15,21 @@ export const useUserProfile = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchProfile = async () => {
+    setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-
-      if (!user) {
-        setLoading(false);
-        return;
-      }
+      if (!user) return;
 
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle(); // ✅ بدل single()
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error) throw error;
 
       if (!data) {
+        // لو مفيش profile موجود، نعمله جديد
         const { data: newProfile, error: insertError } = await supabase
           .from('user_profiles')
           .insert({
@@ -39,7 +38,7 @@ export const useUserProfile = () => {
             current_week: 20
           })
           .select()
-          .single();
+          .maybeSingle(); // ✅ بدل single()
 
         if (insertError) throw insertError;
         setProfile(newProfile);
@@ -53,7 +52,7 @@ export const useUserProfile = () => {
     }
   };
 
-  const updateProfile = async (updates: Partial<Omit<UserProfile, 'id'>>) => {
+  const updateProfile = async (updates: Partial<Omit<UserProfile, 'id' | 'user_id'>>) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('المستخدم غير مسجل');
@@ -63,9 +62,10 @@ export const useUserProfile = () => {
         .update(updates)
         .eq('user_id', user.id)
         .select()
-        .single();
+        .maybeSingle(); // ✅ يمنع 406 إذا مفيش record
 
       if (error) throw error;
+
       setProfile(data);
       return data;
     } catch (err) {

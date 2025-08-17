@@ -161,7 +161,7 @@ const BabyDevelopment = () => {
           </div>
         </div>
         {/* Development Areas */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
           <div className="card text-center">
             <Eye className="h-8 w-8 text-pink-500 mx-auto mb-2" />
             <h4 className="font-semibold text-sm">التطور البصري</h4>

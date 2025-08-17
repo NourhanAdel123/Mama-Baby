@@ -129,9 +129,9 @@ const VaccinationScheduale = () => {
 
         {/* الإحصائيات السريعة */}
         {babyBirthDate && (
-          <div className="grid sm:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-3 gap-4 mb-8">
             <div className="card text-center">
-              <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
+              <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-1" />
               <h4 className="font font-semibold text-sm mb-1">مكتملة</h4>
               <p className="text-2xl font-bold text-green-500">
                 {vaccinationSchedule.reduce(

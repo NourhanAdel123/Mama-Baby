@@ -129,7 +129,7 @@ const ActivityLog = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols- lg:grid-cols-4 gap-4 mb-8 ">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 ">
           <div className="card text-center">
             <Baby className="h-8 w-8 text-blue-500 mx-auto mb-2" />
             <h4 className="font-semibold text-sm mb-1">الرضاعة</h4>
